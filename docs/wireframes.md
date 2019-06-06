@@ -1,1 +1,3 @@
-#Wireframes
+# Wireframes
+
+![WireFrame Diagram](wireframes.png)
