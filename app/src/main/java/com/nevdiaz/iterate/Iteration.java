@@ -1,53 +1,72 @@
 package com.nevdiaz.iterate;
 
-@Entity
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(foreignKeys={
+    @ForeignKey(
+        entity = Image.class,
+        parentColumns = "id",
+        childColumns = "image_id"
+    ),
+    @ForeignKey(
+        entity = Algorithm.class,
+        parentColumns = "id",
+        childColumns = "algorithm_id"
+    )},
+    indices = {@Index("id"), @Index(value = {"image_id","algorithm_id"})})
+
 public class Iteration {
 
-  @PrimaryKey
-  private static long id = 1L;
-  private static long inputId = 1L;
-  private static long outputId = 1L;
-  private static long algorithmId=1L;
-//  private timestamp = date;
-  private String Parameter;
+@PrimaryKey
+  private  long id;
 
-  public static long getId() {
+  @ColumnInfo(name = "image_id")
+  private long imageId;
+
+  @ColumnInfo(name = "algorithm_id")
+  private long algorithmId;
+
+  private String timeStamp;
+
+
+
+  public String getTimeStamp() {
+//    String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp());
+    return timeStamp;
+  }
+
+  public void setTimeStamp(String timeStamp) {
+    this.timeStamp = timeStamp;
+  }
+
+
+  public  long getId() {
     return id;
   }
 
-  public static void setId(long id) {
-    Iteration.id = id;
+  public void setId(long id) {
+    this.id = id;
   }
 
-  public static long getInputId() {
-    return inputId;
+  public long getImageId() {
+    return imageId;
   }
 
-  public static void setInputId(long inputId) {
-    Iteration.inputId = inputId;
+  public void setImageId(long imageId) {
+    this.imageId = imageId;
   }
 
-  public static long getOutputId() {
-    return outputId;
-  }
-
-  public static void setOutputId(long outputId) {
-    Iteration.outputId = outputId;
-  }
-
-  public static long getAlgorithmId() {
+  public long getAlgorithmId() {
     return algorithmId;
   }
 
-  public static void setAlgorithmId(long algorithmId) {
-    Iteration.algorithmId = algorithmId;
+  public void setAlgorithmId(long algorithmId) {
+    this.algorithmId = algorithmId;
   }
 
-  public String getParameter() {
-    return Parameter;
-  }
 
-  public void setParameter(String parameter) {
-    Parameter = parameter;
-  }
 }

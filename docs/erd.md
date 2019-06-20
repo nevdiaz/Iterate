@@ -1,18 +1,18 @@
 ## ENTITIES AND ERD DOCUMENTATION
 
 Entity types:
-* met images
-* personal photos
-* shapes 
-* algorithms 
-* final image
+* Image
+* Algorithm
+* Iteration
 
 Attribute types:
-* met images: string
-* personal photos: string
-* shapes: string
-* algorithms: string 
-* final image: string 
+* id: long
+* input id: long
+* output id: long
+* algorithm id: long
+* timestamp:date
+* formula: String
+
 
 
 
