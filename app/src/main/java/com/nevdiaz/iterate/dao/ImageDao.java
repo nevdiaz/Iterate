@@ -2,6 +2,7 @@ package com.nevdiaz.iterate.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import com.nevdiaz.iterate.Image;
@@ -16,4 +17,9 @@ public interface ImageDao {
 
   @Query("SELECT * FROM image")
   LiveData<List<Image>> getAll();
+
+  @Delete
+  int delete (Image image);
+
+
 }
