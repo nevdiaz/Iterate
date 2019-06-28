@@ -3,12 +3,21 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/navgraph"
-  app:startDestination="@id/camera2BasicFragment">
+  app:startDestination="@id/iterationFragment">
 
 
   <fragment
     android:id="@+id/camera2BasicFragment"
-    android:name="com.nevdiaz.iterate.Camera2BasicFragment"
+    android:name="com.nevdiaz.iterate.fragments.Camera2BasicFragment"
     android:label="fragment_camera2_basic"
     tools:layout="@layout/fragment_camera2_basic"/>
+  <fragment
+    android:id="@+id/iterationFragment"
+    android:name="com.nevdiaz.iterate.fragments.IterationFragment"
+    android:label="iteration_fragment"
+    tools:layout="@layout/iteration_fragment">
+    <action
+      android:id="@+id/action_iterationFragment_to_camera2BasicFragment"
+      app:destination="@id/camera2BasicFragment"/>
+  </fragment>
 </navigation>

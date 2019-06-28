@@ -1,5 +1,6 @@
-package com.nevdiaz.iterate;
+package com.nevdiaz.iterate.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -7,7 +8,7 @@ import androidx.room.PrimaryKey;
 public class Algorithm {
   private String formula;
 
-  @PrimaryKey
+  @PrimaryKey(autoGenerate = true)
   private  long id;
 
   public  long getId() {
@@ -25,4 +26,11 @@ public class Algorithm {
   public void setFormula(String formula) {
     this.formula = formula;
   }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return formula;
+  }
+
 }

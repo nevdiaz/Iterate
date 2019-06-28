@@ -5,7 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import com.nevdiaz.iterate.Image;
+import com.nevdiaz.iterate.entities.Image;
 import java.util.List;
 
 @Dao

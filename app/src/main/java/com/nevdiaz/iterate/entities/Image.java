@@ -1,4 +1,4 @@
-package com.nevdiaz.iterate;
+package com.nevdiaz.iterate.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

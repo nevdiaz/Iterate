@@ -10,6 +10,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.nevdiaz.iterate.dao.AlgorithmDao;
 import com.nevdiaz.iterate.dao.ImageDao;
 import com.nevdiaz.iterate.dao.IterationDao;
+import com.nevdiaz.iterate.entities.Algorithm;
+import com.nevdiaz.iterate.entities.Image;
+import com.nevdiaz.iterate.entities.Iteration;
 
 @Database (entities = {Algorithm.class, Image.class, Iteration.class}, version = 1)
 public abstract class IterateDatabase extends RoomDatabase {

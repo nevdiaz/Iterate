@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nevdiaz.iterate;
+package com.nevdiaz.iterate.fragments;
 
 import android.Manifest;
 import android.app.Activity;
@@ -57,6 +57,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import com.nevdiaz.iterate.AutoFitTextureView;
+import com.nevdiaz.iterate.R;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -18,36 +18,40 @@
     android:layout_height="match_parent">
 
     <com.nevdiaz.iterate.AutoFitTextureView
-        android:id="@+id/texture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+      android:id="@+id/texture"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="0dp"
+      android:layout_marginStart="0dp"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"/>
 
     <FrameLayout
-        android:id="@+id/control"
-        android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/colorPrimaryDark">
-
-        <Button
-            android:id="@+id/picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/picture" />
+      android:id="@+id/control"
+      android:layout_width="match_parent"
+      android:layout_height="112dp"
+      android:layout_marginBottom="27dp"
+      android:layout_alignParentBottom="true">
 
         <ImageButton
-            android:id="@+id/info"
-            android:contentDescription="@string/description_info"
-            style="@android:style/Widget.Material.Light.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:padding="20dp"
-            android:src="@drawable/info" />
+          android:id="@+id/picture"
+          style="@android:style/Widget.Material.Light.Button.Borderless"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:padding="20dp"
+          android:contentDescription="@string/picture"
+          android:src="@drawable/circle"/>
+
+        <ImageButton
+          android:id="@+id/info"
+          style="@android:style/Widget.Material.Light.Button.Borderless"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical|end"
+          android:padding="20dp"
+          android:contentDescription="@string/description_info"
+          android:src="@drawable/info"/>
 
     </FrameLayout>
 
