@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Image  {
+public class Image {
 
   private String filename;
   @PrimaryKey

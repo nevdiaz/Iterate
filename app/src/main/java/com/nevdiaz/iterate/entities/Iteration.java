@@ -6,7 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(foreignKeys={
+@Entity(foreignKeys = {
     @ForeignKey(
         entity = Image.class,
         parentColumns = "id",
@@ -17,12 +17,12 @@ import androidx.room.PrimaryKey;
         parentColumns = "id",
         childColumns = "algorithm_id"
     )},
-    indices = {@Index("id"), @Index(value = {"image_id","algorithm_id"})})
+    indices = {@Index("id"), @Index(value = {"image_id", "algorithm_id"})})
 
 public class Iteration {
 
-@PrimaryKey
-  private  long id;
+  @PrimaryKey
+  private long id;
 
   @ColumnInfo(name = "image_id")
   private long imageId;
@@ -31,7 +31,6 @@ public class Iteration {
   private long algorithmId;
 
   private String timeStamp;
-
 
 
   public String getTimeStamp() {
@@ -44,7 +43,7 @@ public class Iteration {
   }
 
 
-  public  long getId() {
+  public long getId() {
     return id;
   }
 

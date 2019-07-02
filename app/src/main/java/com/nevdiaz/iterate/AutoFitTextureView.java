@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 /**
  * A {@link TextureView} that can be adjusted to a specified aspect ratio.
  */
@@ -44,10 +43,10 @@ public class AutoFitTextureView extends TextureView {
 
   /**
    * Sets the aspect ratio for this view. The size of the view will be measured based on the ratio
-   * calculated from the parameters. Note that the actual sizes of parameters don't matter, that
-   * is, calling setAspectRatio(2, 3) and setAspectRatio(4, 6) make the same result.
+   * calculated from the parameters. Note that the actual sizes of parameters don't matter, that is,
+   * calling setAspectRatio(2, 3) and setAspectRatio(4, 6) make the same result.
    *
-   * @param width  Relative horizontal size
+   * @param width Relative horizontal size
    * @param height Relative vertical size
    */
   public void setAspectRatio(int width, int height) {

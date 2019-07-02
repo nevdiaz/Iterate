@@ -129,8 +129,8 @@ public class Camera2BasicFragment extends Fragment
   private static final int MAX_PREVIEW_HEIGHT = 1080;
 
   /**
-   * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
-   * {@link TextureView}.
+   * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a {@link
+   * TextureView}.
    */
   private final TextureView.SurfaceTextureListener mSurfaceTextureListener
       = new TextureView.SurfaceTextureListener() {
@@ -366,19 +366,18 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
-   * is at least as large as the respective texture view size, and that is at most as large as the
+   * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that is
+   * at least as large as the respective texture view size, and that is at most as large as the
    * respective max size, and whose aspect ratio matches with the specified value. If such size
-   * doesn't exist, choose the largest one that is at most as large as the respective max size,
-   * and whose aspect ratio matches with the specified value.
+   * doesn't exist, choose the largest one that is at most as large as the respective max size, and
+   * whose aspect ratio matches with the specified value.
    *
-   * @param choices           The list of sizes that the camera supports for the intended output
-   *                          class
-   * @param textureViewWidth  The width of the texture view relative to sensor coordinate
+   * @param choices The list of sizes that the camera supports for the intended output class
+   * @param textureViewWidth The width of the texture view relative to sensor coordinate
    * @param textureViewHeight The height of the texture view relative to sensor coordinate
-   * @param maxWidth          The maximum width that can be chosen
-   * @param maxHeight         The maximum height that can be chosen
-   * @param aspectRatio       The aspect ratio
+   * @param maxWidth The maximum width that can be chosen
+   * @param maxHeight The maximum height that can be chosen
+   * @param aspectRatio The aspect ratio
    * @return The optimal {@code Size}, or an arbitrary one if none were big enough
    */
   private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
@@ -484,7 +483,7 @@ public class Camera2BasicFragment extends Fragment
   /**
    * Sets up member variables related to camera.
    *
-   * @param width  The width of available size for camera preview
+   * @param width The width of available size for camera preview
    * @param height The height of available size for camera preview
    */
   @SuppressWarnings("SuspiciousNameCombination")
@@ -730,11 +729,11 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`.
-   * This method should be called after the camera preview size is determined in
-   * setUpCameraOutputs and also the size of `mTextureView` is fixed.
+   * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`. This
+   * method should be called after the camera preview size is determined in setUpCameraOutputs and
+   * also the size of `mTextureView` is fixed.
    *
-   * @param viewWidth  The width of `mTextureView`
+   * @param viewWidth The width of `mTextureView`
    * @param viewHeight The height of `mTextureView`
    */
   private void configureTransform(int viewWidth, int viewHeight) {
@@ -787,8 +786,8 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Run the precapture sequence for capturing a still image. This method should be called when
-   * we get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
+   * Run the precapture sequence for capturing a still image. This method should be called when we
+   * get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
    */
   private void runPrecaptureSequence() {
     try {
@@ -805,8 +804,8 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Capture a still picture. This method should be called when we get a response in
-   * {@link #mCaptureCallback} from both {@link #lockFocus()}.
+   * Capture a still picture. This method should be called when we get a response in {@link
+   * #mCaptureCallback} from both {@link #lockFocus()}.
    */
   private void captureStillPicture() {
     try {
@@ -864,8 +863,7 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Unlock the focus. This method should be called when still image capture sequence is
-   * finished.
+   * Unlock the focus. This method should be called when still image capture sequence is finished.
    */
   private void unlockFocus() {
     try {

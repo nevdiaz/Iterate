@@ -6,12 +6,13 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Algorithm {
+
   private String formula;
 
   @PrimaryKey(autoGenerate = true)
-  private  long id;
+  private long id;
 
-  public  long getId() {
+  public long getId() {
     return id;
   }
 

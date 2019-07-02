@@ -21,6 +21,6 @@ public interface AlgorithmDao {
   LiveData<Algorithm> findById(Long id);
 
   @Delete
-  int delete (Algorithm algorithm);
+  int delete(Algorithm algorithm);
 
 }

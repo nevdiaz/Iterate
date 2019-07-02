@@ -18,6 +18,8 @@
     tools:layout="@layout/iteration_fragment">
     <action
       android:id="@+id/action_iterationFragment_to_camera2BasicFragment"
-      app:destination="@id/camera2BasicFragment"/>
+      app:popUpTo="@id/camera2BasicFragment"
+      app:popUpToInclusive="true"/>
+
   </fragment>
 </navigation>
