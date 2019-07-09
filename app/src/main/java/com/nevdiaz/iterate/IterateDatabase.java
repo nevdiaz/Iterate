@@ -58,11 +58,10 @@ public abstract class IterateDatabase extends RoomDatabase {
 
     @Override
     protected Void doInBackground(Void... voids) {
+
       Algorithm algorithm = new Algorithm();
-      algorithm.setFormula("Algorithm");
-      db.getAlgorithmDao().insert(algorithm);
-      algorithm = new Algorithm();
-      algorithm.setFormula("Algorithm 2");
+      algorithm.setName("fibonacci");
+      algorithm.setFormula("com.nevdiaz.iterate.Fibonacci");
       db.getAlgorithmDao().insert(algorithm);
       return null;
     }

@@ -11,6 +11,7 @@
     android:name="com.nevdiaz.iterate.fragments.Camera2BasicFragment"
     android:label="fragment_camera2_basic"
     tools:layout="@layout/fragment_camera2_basic"/>
+
   <fragment
     android:id="@+id/iterationFragment"
     android:name="com.nevdiaz.iterate.fragments.IterationFragment"
@@ -18,8 +19,7 @@
     tools:layout="@layout/iteration_fragment">
     <action
       android:id="@+id/action_iterationFragment_to_camera2BasicFragment"
-      app:popUpTo="@id/camera2BasicFragment"
-      app:popUpToInclusive="true"/>
-
+      app:destination="@+id/camera2BasicFragment"
+      />
   </fragment>
 </navigation>

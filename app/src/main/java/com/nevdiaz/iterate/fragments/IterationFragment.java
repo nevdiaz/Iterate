@@ -1,5 +1,7 @@
 package com.nevdiaz.iterate.fragments;
 
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,9 @@ public class IterationFragment extends Fragment {
     return view;
   }
 
+
+
+
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
@@ -41,5 +46,6 @@ public class IterationFragment extends Fragment {
       spinner.setAdapter(adapter);
     });
   }
+
 
 }

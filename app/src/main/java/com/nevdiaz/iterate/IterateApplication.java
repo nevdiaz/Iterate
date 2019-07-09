@@ -10,7 +10,7 @@ public class IterateApplication extends Application {
     super.onCreate();
     Stetho.initializeWithDefaults(this);
     new Thread(() -> {
-      IterateDatabase.getInstance(this).getAlgorithmDao();
+      IterateDatabase.getInstance(this).getAlgorithmDao().delete();
 
     }).start();
   }

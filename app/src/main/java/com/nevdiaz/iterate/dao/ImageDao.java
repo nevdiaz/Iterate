@@ -19,7 +19,7 @@ public interface ImageDao {
   LiveData<List<Image>> getAll();
 
   @Delete
-  int delete(Image image);
+  int delete(Image... images);
 
 
 }

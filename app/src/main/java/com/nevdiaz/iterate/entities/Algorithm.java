@@ -1,16 +1,21 @@
 package com.nevdiaz.iterate.entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
 public class Algorithm {
 
-  private String formula;
-
   @PrimaryKey(autoGenerate = true)
   private long id;
+
+  @ColumnInfo(index = true)
+  private String name;
+
+  private String formula;
+
 
   public long getId() {
     return id;
@@ -18,6 +23,14 @@ public class Algorithm {
 
   public void setId(long id) {
     this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getFormula() {
@@ -31,7 +44,7 @@ public class Algorithm {
   @NonNull
   @Override
   public String toString() {
-    return formula;
+    return name;
   }
 
 }

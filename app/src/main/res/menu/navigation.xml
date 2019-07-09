@@ -8,9 +8,9 @@
 
 
   <item
-    android:id="@+id/navigation_dashboard"
-    android:icon="@drawable/ic_dashboard_black_24dp"
-    android:title="@string/title_dashboard"/>
+    android:id="@+id/camera2BasicFragment"
+    android:icon="@drawable/gallery"
+    android:title="@string/title_gallery"/>
 
 
 
