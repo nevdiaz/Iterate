@@ -20,6 +20,7 @@ import java.util.Date;
 public class Iteration {
 
   @PrimaryKey
+  @ColumnInfo(name = "iteration_id")
   private long id;
 
   @ColumnInfo(name = "algorithm_id")
@@ -41,7 +42,6 @@ public class Iteration {
   public void setId(long id) {
     this.id = id;
   }
-
 
   public long getAlgorithmId() {
     return algorithmId;
