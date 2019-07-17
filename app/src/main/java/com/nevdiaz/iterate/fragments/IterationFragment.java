@@ -38,7 +38,7 @@ public class IterationFragment extends Fragment {
     startCamera.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Fragment fragment = new CameraFragment();
+        Fragment fragment = new Camera2BasicFragment();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

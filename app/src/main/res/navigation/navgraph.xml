@@ -8,7 +8,7 @@
 
   <fragment
     android:id="@+id/camera2BasicFragment"
-    android:name="com.nevdiaz.iterate.fragments.CameraFragment"
+    android:name="com.nevdiaz.iterate.fragments.Camera2BasicFragment"
     android:label="fragment_camera2_basic"
     tools:layout="@layout/fragment_camera2_basic"/>
 
