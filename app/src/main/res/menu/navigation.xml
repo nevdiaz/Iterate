@@ -4,11 +4,12 @@
   <item
     android:id="@+id/iterationFragment"
     android:icon="@drawable/ic_home_black_24dp"
-    android:title="@string/title_home"/>
+    android:title="@string/title_home"
+    />
 
 
   <item
-    android:id="@+id/camera2BasicFragment"
+    android:id="@+id/galleryFragment"
     android:icon="@drawable/gallery"
     android:title="@string/title_gallery"/>
 

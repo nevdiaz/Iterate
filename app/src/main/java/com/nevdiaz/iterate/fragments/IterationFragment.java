@@ -1,16 +1,19 @@
 package com.nevdiaz.iterate.fragments;
 
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import com.nevdiaz.iterate.R;
 import com.nevdiaz.iterate.entities.Algorithm;
@@ -30,12 +33,21 @@ public class IterationFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.iteration_fragment, container, false);
     spinner = view.findViewById(R.id.spinner);
-    return view;
+
+    final ImageButton startCamera = view.findViewById(R.id.imageButton);
+    startCamera.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Fragment fragment = new CameraFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+      }
+    });    return view;
+
   }
-
-
-
-
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);

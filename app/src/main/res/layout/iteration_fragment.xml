@@ -25,7 +25,7 @@
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:contentDescription="camera"
+    android:contentDescription="string name =camera"
     android:src="@android:drawable/ic_menu_camera"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"

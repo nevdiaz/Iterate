@@ -71,7 +71,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-public class Camera2BasicFragment extends Fragment
+public class CameraFragment extends Fragment
     implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
   /**
@@ -91,7 +91,7 @@ public class Camera2BasicFragment extends Fragment
   /**
    * Tag for the {@link Log}.
    */
-  private static final String TAG = "Camera2BasicFragment";
+  private static final String TAG = "CameraFragment";
 
   /**
    * Camera state: Showing camera preview.
@@ -413,14 +413,14 @@ public class Camera2BasicFragment extends Fragment
     }
   }
 
-  public static Camera2BasicFragment newInstance() {
-    return new Camera2BasicFragment();
+  public static CameraFragment newInstance() {
+    return new CameraFragment();
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+    return inflater.inflate(R.layout.fragment_camera, container, false);
   }
 
   @Override
@@ -596,7 +596,7 @@ public class Camera2BasicFragment extends Fragment
   }
 
   /**
-   * Opens the camera specified by {@link Camera2BasicFragment#mCameraId}.
+   * Opens the camera specified by {@link CameraFragment#mCameraId}.
    */
   private void openCamera(int width, int height) {
     if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
