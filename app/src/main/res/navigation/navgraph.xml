@@ -8,13 +8,13 @@
 
   <fragment
     android:id="@+id/camera2BasicFragment"
-    android:name="com.nevdiaz.iterate.fragments.Camera2BasicFragment"
+    android:name="com.nevdiaz.iterate.view.Camera2BasicFragment"
     android:label="fragment_camera2_basic"
     tools:layout="@layout/fragment_camera2_basic"/>
 
   <fragment
     android:id="@+id/iterationFragment"
-    android:name="com.nevdiaz.iterate.fragments.IterationFragment"
+    android:name="com.nevdiaz.iterate.view.IterationFragment"
     android:label="iteration_fragment"
     tools:layout="@layout/iteration_fragment">
     <action
@@ -27,7 +27,7 @@
   </fragment>
   <fragment
     android:id="@+id/galleryFragment"
-    android:name="com.nevdiaz.iterate.fragments.GalleryFragment"
+    android:name="com.nevdiaz.iterate.view.GalleryFragment"
     android:label="GalleryFragment">
     <action
       android:id="@+id/action_galleryFragment_to_iterationFragment"

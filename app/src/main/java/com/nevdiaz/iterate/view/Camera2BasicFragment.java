@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nevdiaz.iterate.fragments;
+package com.nevdiaz.iterate.view;
 
 import android.Manifest;
 import android.app.Activity;

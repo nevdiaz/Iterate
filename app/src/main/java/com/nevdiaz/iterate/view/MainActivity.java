@@ -13,7 +13,7 @@
 //    limitations under the License.
 
 
-package com.nevdiaz.iterate;
+package com.nevdiaz.iterate.view;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -25,8 +25,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.nevdiaz.iterate.fragments.GalleryFragment;
-import com.nevdiaz.iterate.fragments.IterationFragment;
+import com.nevdiaz.iterate.R;
 
 public class MainActivity extends AppCompatActivity {
 

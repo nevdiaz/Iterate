@@ -1,4 +1,4 @@
-package com.nevdiaz.iterate.fragments;
+package com.nevdiaz.iterate.view;
 
 
 import android.os.Bundle;
