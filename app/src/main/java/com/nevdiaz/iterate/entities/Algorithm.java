@@ -46,5 +46,6 @@ public class Algorithm {
   public String toString() {
     return name;
   }
+  //what the hell is this jennifer?
 
 }

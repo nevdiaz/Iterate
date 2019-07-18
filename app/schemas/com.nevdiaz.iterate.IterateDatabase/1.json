@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "268607f6eb09afd9f960526f87d12c15",
+    "identityHash": "10ec5b5255463519a5c34e9ff8d5bc0d",
     "entities": [
       {
         "tableName": "Algorithm",
@@ -47,8 +47,14 @@
       },
       {
         "tableName": "Image",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`filename` TEXT, `id` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `filename` TEXT, `timestamp` TEXT, PRIMARY KEY(`id`))",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "filename",
             "columnName": "filename",
@@ -56,46 +62,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "Iteration",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `image_id` INTEGER NOT NULL, `algorithm_id` INTEGER NOT NULL, `timeStamp` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`image_id`) REFERENCES `Image`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`algorithm_id`) REFERENCES `Algorithm`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "imageId",
-            "columnName": "image_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "algorithmId",
-            "columnName": "algorithm_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "timeStamp",
-            "columnName": "timeStamp",
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -108,12 +76,65 @@
         },
         "indices": [
           {
-            "name": "index_Iteration_id",
+            "name": "index_Image_timestamp",
             "unique": false,
             "columnNames": [
-              "id"
+              "timestamp"
             ],
-            "createSql": "CREATE  INDEX `index_Iteration_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE  INDEX `index_Image_timestamp` ON `${TABLE_NAME}` (`timestamp`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Iteration",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`iteration_id` INTEGER NOT NULL, `algorithm_id` INTEGER NOT NULL, `image_id` INTEGER NOT NULL, `timestamp` TEXT, `name` TEXT, PRIMARY KEY(`iteration_id`), FOREIGN KEY(`image_id`) REFERENCES `Image`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`algorithm_id`) REFERENCES `Algorithm`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "iteration_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "algorithmId",
+            "columnName": "algorithm_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageId",
+            "columnName": "image_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "iteration_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Iteration_iteration_id",
+            "unique": false,
+            "columnNames": [
+              "iteration_id"
+            ],
+            "createSql": "CREATE  INDEX `index_Iteration_iteration_id` ON `${TABLE_NAME}` (`iteration_id`)"
           },
           {
             "name": "index_Iteration_image_id_algorithm_id",
@@ -123,6 +144,14 @@
               "algorithm_id"
             ],
             "createSql": "CREATE  INDEX `index_Iteration_image_id_algorithm_id` ON `${TABLE_NAME}` (`image_id`, `algorithm_id`)"
+          },
+          {
+            "name": "index_Iteration_timestamp",
+            "unique": false,
+            "columnNames": [
+              "timestamp"
+            ],
+            "createSql": "CREATE  INDEX `index_Iteration_timestamp` ON `${TABLE_NAME}` (`timestamp`)"
           }
         ],
         "foreignKeys": [
@@ -154,7 +183,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '268607f6eb09afd9f960526f87d12c15')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '10ec5b5255463519a5c34e9ff8d5bc0d')"
     ]
   }
 }

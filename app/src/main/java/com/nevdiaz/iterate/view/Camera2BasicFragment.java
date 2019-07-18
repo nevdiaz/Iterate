@@ -952,6 +952,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
   }
+//TODO save image to gallery
 
   /**
    * Compares two {@code Size}s based on their areas.

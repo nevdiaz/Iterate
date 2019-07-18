@@ -1,21 +1,26 @@
 package com.nevdiaz.iterate.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity(foreignKeys = {
+    @ForeignKey(
+        entity = Image.class,
+        parentColumns = "id",
+        childColumns = "image_id"
+    ),
+
     @ForeignKey(
         entity = Algorithm.class,
         parentColumns = "id",
         childColumns = "algorithm_id"
     )},
-    indices = {@Index("id"), @Index(value = {"algorithm_id"})})
+    indices = {@Index("iteration_id"), @Index(value = {"image_id", "algorithm_id"})})
 
 public class Iteration {
 
@@ -26,11 +31,28 @@ public class Iteration {
   @ColumnInfo(name = "algorithm_id")
   private long algorithmId;
 
-  private Date timeStamp;
 
-  public Date getTimeStamp() {
-    return timeStamp;
+  @NonNull
+  @ColumnInfo(name = "image_id")
+  private long imageId;
+
+  @ColumnInfo(name = "timestamp", index = true)
+  private Date timestamp;
+
+
+  private String name;
+
+
+  public Date getTimestamp() {
+    return timestamp;
   }
+
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
+  }
+
+
+
 
 //Date timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp());
 
@@ -51,5 +73,21 @@ public class Iteration {
     this.algorithmId = algorithmId;
   }
 
+  public long getImageId() {
+    return imageId;
+  }
 
+  public void setImageId(long imageId) {
+    this.imageId = imageId;
+  }
+
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

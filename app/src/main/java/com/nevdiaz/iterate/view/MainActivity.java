@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     NavigationUI.setupWithNavController(navigation, navController);
   }
+
+
+
   private boolean loadFragment(Fragment fragment) {
     if (fragment != null) {
 
