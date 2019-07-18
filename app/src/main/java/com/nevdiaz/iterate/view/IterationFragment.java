@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +18,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import com.nevdiaz.iterate.R;
 import com.nevdiaz.iterate.entities.Algorithm;
+import com.nevdiaz.iterate.viewmodel.IterationViewModel;
 
 public class IterationFragment extends Fragment {
 
   private IterationViewModel mViewModel;
   private Spinner spinner;
+  private ImageView imageView;
 
   public static IterationFragment newInstance() {
     return new IterationFragment();
@@ -32,6 +35,8 @@ public class IterationFragment extends Fragment {
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.iteration_fragment, container, false);
     spinner = view.findViewById(R.id.spinner);
+    imageView = view.findViewById(R.id.imageView);
+
 
     final ImageButton startCamera = view.findViewById(R.id.imageButton);
     startCamera.setOnClickListener(new OnClickListener() {
