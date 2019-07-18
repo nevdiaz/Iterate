@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import com.nevdiaz.iterate.service.TimestampConverter;
 import java.util.Date;
 
 @Entity(foreignKeys = {
@@ -37,11 +39,11 @@ public class Iteration {
   private long imageId;
 
   @ColumnInfo(name = "timestamp", index = true)
+  @TypeConverters({TimestampConverter.class})
   private Date timestamp;
 
 
   private String name;
-
 
   public Date getTimestamp() {
     return timestamp;
@@ -50,9 +52,6 @@ public class Iteration {
   public void setTimestamp(Date timestamp) {
     this.timestamp = timestamp;
   }
-
-
-
 
 //Date timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp());
 
@@ -80,8 +79,6 @@ public class Iteration {
   public void setImageId(long imageId) {
     this.imageId = imageId;
   }
-
-
 
   public String getName() {
     return name;

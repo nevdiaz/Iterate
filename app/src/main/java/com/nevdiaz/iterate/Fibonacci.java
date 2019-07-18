@@ -14,7 +14,6 @@ public class Fibonacci implements ImageAlgorithm {
   private static final int PEN_COLOR = Color.rgb(64, 64, 64);
 
 
-
   private Bitmap source;
   private OnCompletionListener listener;
   private ProcessingTask task;
@@ -44,7 +43,7 @@ public class Fibonacci implements ImageAlgorithm {
 
   private static class ProcessingTask extends AsyncTask<Bitmap, Bitmap, Bitmap> {
 
-    private OnCompletionListener  listener;
+    private OnCompletionListener listener;
     private final Paint paint;
     private double px;
     private double py;
@@ -71,7 +70,7 @@ public class Fibonacci implements ImageAlgorithm {
 
     @Override
     protected void onProgressUpdate(Bitmap... bitmaps) {
-     progress = Bitmap.createBitmap(bitmaps[0]);
+      progress = Bitmap.createBitmap(bitmaps[0]);
     }
 
     @Override
