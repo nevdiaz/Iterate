@@ -1,5 +1,6 @@
 package com.nevdiaz.iterate.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,6 +16,12 @@ public interface IterationDao {
 
   @Insert
   List<Long> insert(Iteration... iterations);
+
+  @Query("SELECT * FROM algorithm INNER JOIN Iteration ON " +
+      "algorithm.id = iteration.algorithm_id WHERE " +
+      "iteration.image_id = :imageId")
+  LiveData<List<Iteration>> getIterationForImage(long imageId);
+
 
   @Query("SELECT * FROM Iteration WHERE algorithm_id= :id ")
   Iteration findById(Long id);

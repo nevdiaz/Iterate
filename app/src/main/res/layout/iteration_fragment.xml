@@ -8,15 +8,18 @@
   tools:context=".view.IterationFragment"
   >
 
-  <Spinner
-    android:id="@+id/spinner"
-    android:layout_width="wrap_content"
+  <Button
+    android:id="@+id/iterate_button"
+    android:layout_width="120dp"
     android:layout_height="wrap_content"
+    android:text="Formula"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toLeftOf="@+id/imageButton"/>
+
 
   <ImageButton
     android:id="@+id/imageButton"
@@ -29,25 +32,26 @@
     android:src="@android:drawable/ic_menu_camera"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintLeft_toRightOf="@id/spinner"/>
+    app:layout_constraintLeft_toRightOf="@id/iterate_button"/>
 
-  <ImageButton
-    android:id="@+id/cameraRoll"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:src="@drawable/cameraroll"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintRight_toLeftOf="@id/spinner"
-    app:layout_constraintLeft_toLeftOf="parent"
-    />
+<!--  <ImageButton-->
+<!--    android:id="@+id/cameraRoll"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginBottom="8dp"-->
+<!--    android:layout_marginStart="8dp"-->
+<!--    android:layout_marginEnd="8dp"-->
+<!--    android:src="@drawable/cameraroll"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintRight_toLeftOf="@id/spinner"-->
+<!--    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--    />-->
 
   <ImageView
     android:id="@+id/imageView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scaleType="fitCenter"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +59,6 @@
     android:src="@drawable/ic_launcher_background"
     tools:ignore = "ContentDescription"
     />
-  <!--    android:scaleType="fitCenter"-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

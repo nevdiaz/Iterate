@@ -16,16 +16,25 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
     android:name=".IterateApplication">
+
     <activity
       android:label="@string/title_activity_main"
       android:name=".view.MainActivity">
+
+
+    </activity>
+
+    <activity
+      android:name=".view.LoginActivity">
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+
     </activity>
+
   </application>
 
 </manifest>
