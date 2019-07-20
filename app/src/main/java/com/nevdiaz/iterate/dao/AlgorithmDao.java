@@ -12,7 +12,13 @@ import java.util.List;
 public interface AlgorithmDao {
 
   @Insert
-  void insert(Algorithm algorithm);
+  long insert(Algorithm algorithm);
+
+  @Insert
+  List<Long> insert(Algorithm... algorithms);
+
+  @Insert
+  List<Long>  insert(List<Algorithm> algorithms);
 
   @Query("SELECT * FROM algorithm")
   LiveData<List<Algorithm>> getAll();

@@ -42,7 +42,7 @@ public class Iteration {
   @TypeConverters({TimestampConverter.class})
   private Date timestamp;
 
-
+  @ColumnInfo(name = "iterations")
   private String name;
 
   public Date getTimestamp() {

@@ -16,7 +16,7 @@ public class IterateOperation implements Serializable {
    * @param view the needed user interface components.
    * @return a bitmap
    */
-  public Bitmap transform(Bitmap src, View view) {
+  public Bitmap algorithm(Bitmap src, View view) {
 
     return src;
 

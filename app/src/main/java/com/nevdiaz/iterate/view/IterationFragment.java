@@ -1,8 +1,13 @@
 package com.nevdiaz.iterate.view;
 
 
+import static android.content.Context.MODE_PRIVATE;
+import static java.security.AccessController.getContext;
+import static java.util.jar.Pack200.Unpacker.PROGRESS;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -31,6 +36,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import com.nevdiaz.iterate.service.ImageAlgorithm;
+import edu.cnm.deepdive.android.FluentAsyncTask;
 import com.nevdiaz.iterate.IterateDatabase;
 import com.nevdiaz.iterate.R;
 import com.nevdiaz.iterate.entities.Algorithm;
@@ -46,7 +53,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class IterationFragment extends Fragment {
+public class IterationFragment extends Fragment implements ImageAlgorithm.OnCompletionListener {
 
   private IterationViewModel mViewModel;
   private Spinner spinner;
@@ -70,31 +77,16 @@ public class IterationFragment extends Fragment {
   /**
    * List which holds instances of image transform algorithms.
    */
-
+  private List<Algorithm> algorithms;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.iteration_fragment, container, false);
-//    db = IterateDatabase.getInstance();
+    db = IterateDatabase.getInstance();
 
     iterateButton = view.findViewById(R.id.iterate_button);
     imageView = view.findViewById(R.id.imageView);
-    spinner = view.findViewById(R.id.spinner);
-
-//    final ImageButton startCamera = view.findViewById(R.id.imageButton);
-//    startCamera.setOnClickListener(new OnClickListener() {
-//      @Override
-//      public void onClick(View v) {
-//        Fragment fragment = new Camera2BasicFragment();
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.container, fragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
-//      }
-//    });
-//    return view;
 
     final ImageButton startCamera = view.findViewById(R.id.imageButton);
     startCamera.setOnClickListener((View v) -> {
@@ -105,41 +97,39 @@ public class IterationFragment extends Fragment {
   }
 
 
+  @Override
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+    super.onCreateOptionsMenu(menu, inflater);
   }
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    return super.onCreateOptionsMenu(menu);
-  }
 
   /**
    * Sets the popup menu to display choices of transform operations.  Inflates the chosen {@link
-   * TransformPickerDialogFragment} alert dialog so that user can enter information needed for the
+   * AlgorithmPickerDialogFragment} alert dialog so that user can enter information needed for the
    * chosen transform type.
    *
    * @param v current {@link View} instance of popup menu.
    */
   private void showPopup(View v) {
-    PopupMenu popup = new PopupMenu(this, v);
+    PopupMenu popup = new PopupMenu(getContext(), v);
     // TODO read from database instead of inflating.
     MenuInflater inflater = popup.getMenuInflater();
-    inflater.inflate(R.menu.transform_options, popup.getMenu());
+    inflater.inflate(R.menu.algorithm_options, popup.getMenu());
 
-    for (Transform transform : transforms) {
+    for (Algorithm algorithm: algorithms) {
 
       popup.getMenu()
-          .add(transform.getName())
+          .add(algorithm.getName())
           .setOnMenuItemClickListener((item) -> {
             try {
-              if (transform.getFormula()!=null) {
-                Class<? extends IterateOperation> clazz =
-                    (Class<? extends IterateOperation>) getClass()
-                        .getClassLoader().loadClass(transform.getClazz());
-                IterateOperation operation = clazz.newInstance();
-                DialogFragment dialogFragment = TransformPickerDialogFragment
-                    .newInstance(operation, transform.getId());
-                dialogFragment.show(getSupportFragmentManager(),
-                    dialogFragment.getClass().getSimpleName());
+              if (algorithm.getFormula()!=null) {
+                Class<? extends ImageAlgorithm> formula =
+                    (Class<? extends ImageAlgorithm>) getClass()
+                        .getClassLoader().loadClass(algorithm.getFormula());
+                ImageAlgorithm operation = formula.newInstance();
+                operation.setOnCompletionListener(this);
+                operation.process(); // Do it!!!!!!
+//                operation.setSource(/* some bitmap */); // here add winston
               }
               return true;
             } catch (ClassNotFoundException | IllegalAccessException | java.lang.InstantiationException e) {
@@ -150,9 +140,22 @@ public class IterationFragment extends Fragment {
     }
 
     popup.setOnMenuItemClickListener(menuItem -> {
-      showNoticeDialog("Iteration1");
-      return true;
+      Bitmap result = operation.algorithm(access.getBitmap(), view);
+      // TODO Update database, local storage.
+      access.setBitmap(result, getArguments().getLong(TRANSFORM_ID_KEY));
+      float stDev = standardDeviation.getProgress();
+      preferences = getActivity().getSharedPreferences(" ", MODE_PRIVATE);
+      final SharedPreferences.Editor editor = preferences.edit();
+      editor.putFloat("Blur", stDev);
+      editor.apply();
+      standardDeviation.setProgress(preferences.getInt(PROGRESS, 0));
     });
+//        .setNegativeButton(R.string.algorithms_cancel,
+//            (dialog, which) -> {
+//            });
+//      showNoticeDialog("Iteration1");
+//      return true;
+//    });
     popup.show();
   }
 
@@ -161,73 +164,55 @@ public class IterationFragment extends Fragment {
    */
   public void showNoticeDialog(String str) {
 
-    DialogFragment dialogFragment = new TransformPickerDialogFragment();
+    DialogFragment dialogFragment = new AlgorithmPickerDialogFragment();
     dialogFragment.show(getSupportFragmentManager(), "Notice Dialog Fragment");
   }
 
-  @Override
-  public boolean onMenuItemClick(MenuItem item) {
-    return false;
-  }
-
-  @Override
-  public Bitmap getBitmap() {
-    return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-  }
-
-  /**
-   * This method makes it easy to load a bitmap of arbitrarily large size into a file.  This method
-   * is also used to set data regarding the {@link Image} entity into the data base.
-   *
-   * @param bitmap bitmap to be compressed and stored in the gallery file and in the database.
-   * @param transId the id of the type of transform applied to the image.
-   */
-  @Override
-  public void setBitmap(Bitmap bitmap, long transId) {
-    imageView.setImageBitmap(bitmap);
-
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-    if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-    }
-    File destination = new File(getExternalFilesDir(null),
-        System.currentTimeMillis() + ".jpg");
-    FileOutputStream fo;
-    try {
-      destination.createNewFile();
-      destination.toURL();
-      fo = new FileOutputStream(destination);
-      fo.write(bytes.toByteArray());
-      fo.close();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    Image image = new Image();
-    image.setTimestamp(new Date());
-    image.setInternalURL(destination.toString());
-    image.setTransformId(transId);
-    new BaseFluentAsyncTask<Void, Void, Long, Long>()
-        .setPerformer((ignore) -> IterateDatabase.getImageDao().insert(image))
-        .execute();
-  }
-
-  private class TransformListQuery extends
-      AsyncTask<Void, Void, List<Iteration>> {
 
 
-    @Override
-    protected List<Iteration> doInBackground(Void... voids) {
-      return IterateDatabase.getInstance().getIterationDao().findAll();
-    }
+//  @Override
+//  public Bitmap getBitmap() {
+//    return ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+//  }
+//
+//  /**
+//   * This method makes it easy to load a bitmap of arbitrarily large size into a file.  This method
+//   * is also used to set data regarding the {@link Image} entity into the data base.
+//   *
+//   * @param bitmap bitmap to be compressed and stored in the gallery file and in the database.
+//   * @param transId the id of the type of transform applied to the image.
+//   */
+//  @Override
+//  public void setBitmap(Bitmap bitmap, long transId) {
+//    imageView.setImageBitmap(bitmap);
+//
+//    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//    if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+//    }
+//    File destination = new File(getExternalFilesDir(null),
+//        System.currentTimeMillis() + ".jpg");
+//    FileOutputStream fo;
+//    try {
+//      destination.createNewFile();
+//      destination.toURL();
+//      fo = new FileOutputStream(destination);
+//      fo.write(bytes.toByteArray());
+//      fo.close();
+//    } catch (FileNotFoundException e) {
+//      e.printStackTrace();
+//    } catch (IOException e) {
+//      e.printStackTrace();
+//    }
+//    Iteration iteration = new Iteration();
+//    iteration.setTimestamp(new Date());
+//    iteration.setInternalURL(destination.toString());
+//    iteration.setTransformId(transId);
+//    new BaseFluentAsyncTask<Void, Void, Long, Long>()
+//        .setPerformer((ignore) -> IterateDatabase.getIterationDao().insert(iteration))
+//        .execute();
+//  }
 
-    @Override
-    protected void onPostExecute(List<Iteration> transforms) {
-      IterationFragment.this.iterates = transforms;
-    }
-
-  }
 
   /**
    * Alert dialog which invokes {@link #galleryIntent()} or {@link #cameraIntent()} or cancels the
@@ -237,10 +222,10 @@ public class IterationFragment extends Fragment {
     final CharSequence[] items = {"Take Photo", "Choose from Library",
         "Cancel"};
 
-    AlertDialog.Builder builder = new AlertDialog.Builder( this);
+    AlertDialog.Builder builder = new AlertDialog.Builder(context(this);
     builder.setTitle("Add Photo!");
     builder.setItems(items, (dialog, item) -> {
-      boolean result = Utility.checkPermission(context(IterationFragment));
+      boolean result = Utility.checkPermission(getcontext(IterationFragment));
 
       if (items[item].equals("Take Photo")) {
         userChosenTask = "Take Photo";
@@ -374,5 +359,28 @@ public class IterationFragment extends Fragment {
     imageView
         .setImageBitmap(thumbnail);
   }
+
+  @Override
+  public void handle(Bitmap bitmap) {
+    // This gets invoked when the algorithm is complete.
+  }
+
+  private class ALgorithmListQuery extends
+    AsyncTask<Void, Void, List<Algorithm>> {
+
+
+  @Override
+  protected List<Algorithm> doInBackground(Void... voids) {
+    return IterateDatabase.getInstance().getAlgorithmDao().getAll();
+  }
+
+
+
+  @Override
+  protected void onPostExecute(List<Algorithm> algorithms) {
+    IterationFragment.this.algorithms = algorithms;
+  }
+
+}
 
 }
