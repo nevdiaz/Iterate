@@ -16,7 +16,7 @@ public class IterationViewModel extends AndroidViewModel {
   // TODO: Implement the ViewModel
 
   public LiveData<List<Algorithm>> getAlgorithms() {
-    return IterateDatabase.getInstance(getApplication()).getAlgorithmDao().getAll();
+    return IterateDatabase.getInstance().getAlgorithmDao().getAll();
   }
 
 }

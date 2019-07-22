@@ -10,6 +10,7 @@
   <string name="camera_error">This device doesn\'t support Camera2 API.</string>
   <string name ="camera">Camera</string>
   <string name="login_failed">Unable to sign-in</string>
+  <string name="sign_out">Sign Out</string>
 
 
 </resources>

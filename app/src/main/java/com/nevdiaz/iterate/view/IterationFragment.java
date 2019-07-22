@@ -1,16 +1,10 @@
 package com.nevdiaz.iterate.view;
 
 
-import static android.content.Context.MODE_PRIVATE;
-import static java.security.AccessController.getContext;
-import static java.util.jar.Pack200.Unpacker.PROGRESS;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,39 +12,29 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
-import com.nevdiaz.iterate.service.ImageAlgorithm;
-import edu.cnm.deepdive.android.FluentAsyncTask;
 import com.nevdiaz.iterate.IterateDatabase;
 import com.nevdiaz.iterate.R;
 import com.nevdiaz.iterate.entities.Algorithm;
 import com.nevdiaz.iterate.entities.Iteration;
-import com.nevdiaz.iterate.service.IterateOperation;
+import com.nevdiaz.iterate.service.ImageAlgorithm;
 import com.nevdiaz.iterate.service.Utility;
 import com.nevdiaz.iterate.viewmodel.IterationViewModel;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 public class IterationFragment extends Fragment implements ImageAlgorithm.OnCompletionListener {
@@ -58,8 +42,8 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
   private IterationViewModel mViewModel;
   private Spinner spinner;
   private ImageView imageView;
-  private Button iterateButton;
   private String userChosenTask;
+  private ImageButton imageButton;
   private static IterateDatabase db;
 
 
@@ -84,89 +68,93 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.iteration_fragment, container, false);
     db = IterateDatabase.getInstance();
+    new AlgorithmListQuery().execute();
 
-    iterateButton = view.findViewById(R.id.iterate_button);
     imageView = view.findViewById(R.id.imageView);
+    spinner = view.findViewById(R.id.spinner);
 
-    final ImageButton startCamera = view.findViewById(R.id.imageButton);
-    startCamera.setOnClickListener((View v) -> {
+
+    imageButton = view.findViewById(R.id.imageButton);
+    imageButton.setOnClickListener((View v) -> {
       selectImage();
     });
     return view;
 
   }
-
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    mViewModel = ViewModelProviders.of(this).get(IterationViewModel.class);
+    mViewModel.getAlgorithms().observe(this, (algorithms) -> {
+      ArrayAdapter<Algorithm> adapter =
+          new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, algorithms);
+      spinner.setAdapter(adapter);
+    });
+  }
 
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
   }
 
-
-  /**
-   * Sets the popup menu to display choices of transform operations.  Inflates the chosen {@link
-   * AlgorithmPickerDialogFragment} alert dialog so that user can enter information needed for the
-   * chosen transform type.
-   *
-   * @param v current {@link View} instance of popup menu.
-   */
-  private void showPopup(View v) {
-    PopupMenu popup = new PopupMenu(getContext(), v);
-    // TODO read from database instead of inflating.
-    MenuInflater inflater = popup.getMenuInflater();
-    inflater.inflate(R.menu.algorithm_options, popup.getMenu());
-
-    for (Algorithm algorithm: algorithms) {
-
-      popup.getMenu()
-          .add(algorithm.getName())
-          .setOnMenuItemClickListener((item) -> {
-            try {
-              if (algorithm.getFormula()!=null) {
-                Class<? extends ImageAlgorithm> formula =
-                    (Class<? extends ImageAlgorithm>) getClass()
-                        .getClassLoader().loadClass(algorithm.getFormula());
-                ImageAlgorithm operation = formula.newInstance();
-                operation.setOnCompletionListener(this);
-                operation.process(); // Do it!!!!!!
-//                operation.setSource(/* some bitmap */); // here add winston
-              }
-              return true;
-            } catch (ClassNotFoundException | IllegalAccessException | java.lang.InstantiationException e) {
-              e.printStackTrace();
-              return false;
-            }
-          });
-    }
-
-    popup.setOnMenuItemClickListener(menuItem -> {
-      Bitmap result = operation.algorithm(access.getBitmap(), view);
-      // TODO Update database, local storage.
-      access.setBitmap(result, getArguments().getLong(TRANSFORM_ID_KEY));
-      float stDev = standardDeviation.getProgress();
-      preferences = getActivity().getSharedPreferences(" ", MODE_PRIVATE);
-      final SharedPreferences.Editor editor = preferences.edit();
-      editor.putFloat("Blur", stDev);
-      editor.apply();
-      standardDeviation.setProgress(preferences.getInt(PROGRESS, 0));
-    });
-//        .setNegativeButton(R.string.algorithms_cancel,
-//            (dialog, which) -> {
-//            });
-//      showNoticeDialog("Iteration1");
-//      return true;
+//
+//  /**
+//   * Sets the popup menu to display choices of transform operations.  Inflates the chosen {@link
+//   * AlgorithmPickerDialogFragment} alert dialog so that user can enter information needed for the
+//   * chosen transform type.
+//   *
+//   * @param v current {@link View} instance of popup menu.
+//   */
+//  private void showPopup(View v) {
+//    PopupMenu popup = new PopupMenu(getContext(), v);
+//    // TODO read from database instead of inflating.
+//    MenuInflater inflater = popup.getMenuInflater();
+//    inflater.inflate(R.menu.algorithm_options, popup.getMenu());
+//
+//    for (Algorithm algorithm: algorithms) {
+//
+//      popup.getMenu()
+//          .add(algorithm.getName())
+//          .setOnMenuItemClickListener((item) -> {
+//            try {
+//              if (algorithm.getFormula()!=null) {
+//                Class<? extends ImageAlgorithm> formula =
+//                    (Class<? extends ImageAlgorithm>) getClass()
+//                        .getClassLoader().loadClass(algorithm.getFormula());
+//                ImageAlgorithm operation = formula.newInstance();
+//                operation.setOnCompletionListener(this);
+//                operation.process(); // Do it!!!!!!
+////                operation.setSource(/* some bitmap */); // here add winston
+//              }
+//              return true;
+//            } catch (ClassNotFoundException | IllegalAccessException | java.lang.InstantiationException e) {
+//              e.printStackTrace();
+//              return false;
+//            }
+//          });
+//    }
+//
+//    popup.setOnMenuItemClickListener(menuItem -> {
+//      Bitmap result = operation.algorithm(access.getBitmap(), view);
+//      // TODO Update database, local storage.
+//      access.setBitmap(result, getArguments().getLong(TRANSFORM_ID_KEY));
+//      float stDev = standardDeviation.getProgress();
+//      preferences = getActivity().getSharedPreferences(" ", MODE_PRIVATE);
+//      final SharedPreferences.Editor editor = preferences.edit();
+//      editor.putFloat("Blur", stDev);
+//      editor.apply();
+//      standardDeviation.setProgress(preferences.getInt(PROGRESS, 0));
 //    });
-    popup.show();
-  }
+////        .setNegativeButton(R.string.algorithms_cancel,
+////            (dialog, which) -> {
+////            });
+////      showNoticeDialog("Iteration1");
+////      return true;
+////    });
+//    popup.show();
+//  }
 
-  /**
-   * Create an instance of the dialog fragment and show it.
-   */
-  public void showNoticeDialog(String str) {
 
-    DialogFragment dialogFragment = new AlgorithmPickerDialogFragment();
-    dialogFragment.show(getSupportFragmentManager(), "Notice Dialog Fragment");
-  }
 
 
 
@@ -222,10 +210,10 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
     final CharSequence[] items = {"Take Photo", "Choose from Library",
         "Cancel"};
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(context(this);
+    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
     builder.setTitle("Add Photo!");
     builder.setItems(items, (dialog, item) -> {
-      boolean result = Utility.checkPermission(getcontext(IterationFragment));
+      boolean result = Utility.checkPermission(getContext());
 
       if (items[item].equals("Take Photo")) {
         userChosenTask = "Take Photo";
@@ -328,7 +316,7 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
     if (data != null) {
       try {
         bm = MediaStore.Images.Media
-            .getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            .getBitmap(getContext().getContentResolver(), data.getData());
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -348,8 +336,8 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
       destination.createNewFile();
       destination.toURL();
       Iteration iteration = new Iteration();
-      iteration.setInternalURL(destination.toString());
-      IterateDatabase.getAlgorithmDao().insert(iteration);
+      iteration.setName(destination.toString());
+      IterateDatabase.getIterationDao().insert(iteration);
       fo = new FileOutputStream(destination);
       fo.write(bytes.toByteArray());
       fo.close();
@@ -365,20 +353,19 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
     // This gets invoked when the algorithm is complete.
   }
 
-  private class ALgorithmListQuery extends
-    AsyncTask<Void, Void, List<Algorithm>> {
+  private class AlgorithmListQuery extends
+    AsyncTask<Void, Void, LiveData<List<Algorithm>>> {
 
 
-  @Override
-  protected List<Algorithm> doInBackground(Void... voids) {
-    return IterateDatabase.getInstance().getAlgorithmDao().getAll();
-  }
+    @Override
+    protected LiveData<List<Algorithm>> doInBackground(Void... voids) {
+      return IterateDatabase.getInstance().getAlgorithmDao().getAll();
+    }
 
 
-
-  @Override
-  protected void onPostExecute(List<Algorithm> algorithms) {
-    IterationFragment.this.algorithms = algorithms;
+    @Override
+  protected void onPostExecute(LiveData<List<Algorithm>>algorithms) {
+      super.onPostExecute(algorithms);
   }
 
 }

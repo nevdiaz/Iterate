@@ -7,20 +7,10 @@
 
 
   <fragment
-    android:id="@+id/camera2BasicFragment"
-    android:name="com.nevdiaz.iterate.view.Camera2BasicFragment"
-    android:label="fragment_camera2_basic"
-    tools:layout="@layout/fragment_camera2_basic"/>
-
-  <fragment
     android:id="@+id/iterationFragment"
     android:name="com.nevdiaz.iterate.view.IterationFragment"
     android:label="iteration_fragment"
     tools:layout="@layout/iteration_fragment">
-    <action
-      android:id="@+id/action_iterationFragment_to_camera2BasicFragment"
-      app:destination="@+id/camera2BasicFragment"
-      />
     <action
       android:id="@+id/action_iterationFragment_to_galleryFragment"
       app:destination="@id/galleryFragment"/>
@@ -28,9 +18,5 @@
   <fragment
     android:id="@+id/galleryFragment"
     android:name="com.nevdiaz.iterate.view.GalleryFragment"
-    android:label="GalleryFragment">
-    <action
-      android:id="@+id/action_galleryFragment_to_iterationFragment"
-      app:destination="@id/iterationFragment"/>
-  </fragment>
+    android:label="GalleryFragment"/>
 </navigation>

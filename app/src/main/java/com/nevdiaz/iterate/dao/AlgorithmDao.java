@@ -21,7 +21,7 @@ public interface AlgorithmDao {
   List<Long>  insert(List<Algorithm> algorithms);
 
   @Query("SELECT * FROM algorithm")
-  LiveData<List<Algorithm>> getAll();
+ LiveData<List<Algorithm>> getAll();
 
   @Query("SELECT * FROM algorithm WHERE id = :id")
   LiveData<Algorithm> findById(Long id);

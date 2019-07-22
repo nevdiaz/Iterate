@@ -1,5 +1,7 @@
 package com.nevdiaz.iterate.view;
 
+import static com.nevdiaz.iterate.R.layout.activity_login;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.nevdiaz.iterate.IterateApplication;
 import com.nevdiaz.iterate.R;
+import com.nevdiaz.iterate.service.GoogleSignInService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -20,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_login);
+    setContentView(activity_login);
     SignInButton signIn = findViewById(R.id.sign_in);
     signIn.setOnClickListener(view -> signIn());
   }
@@ -51,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private void signIn() {
-    Intent intent = IterateApplication.getInstance().getClient().getSignInIntent();
+    Intent intent = GoogleSignInService.getInstance().getClient().getSignInIntent();
     startActivityForResult(intent, REQUEST_CODE);
   }
 
