@@ -6,7 +6,7 @@
     <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
     <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
     <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
-    <option name="OTHER_OPTIONS" value="-bootclasspath /Library/Java/JavaVirtualMachines/jdk1.8.0_212.jdk/Contents/Home/jre/lib/rt.jar:/opt/android/sdk/platforms/android-21/android.jar -link https://docs.oracle.com/javase/8/docs/api/ -linkoffline https://developer.android.com/reference/ /Users/jd/Desktop/bootcamp/projects/Iterate -windowtitle &quot;Iterate&quot;" />
+    <option name="OTHER_OPTIONS" value="-bootclasspath /Library/Java/JavaVirtualMachines/jdk1.8.0_212.jdk/Contents/Home/jre/lib/rt.jar:/opt/android/sdk/platforms/android-21/android.jar -link https://docs.oracle.com/javase/8/docs/api/ -linkoffline https://developer.android.com/reference/ /Users/jd/Desktop/bootcamp/projects/Iterate/ -windowtitle &quot;Iterate&quot;" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
