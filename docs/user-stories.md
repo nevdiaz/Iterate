@@ -5,8 +5,3 @@
 * As a user I am interested in the visualization of algorithms so I can better understand the concepts I am learning in Maths.
 * As a user I find repetitive patterns calming and a great way to give myself a break from the chaos of my day to day life. 
 
-* [Wireframes](docs/wireframes.md)
-* [ERD](docs/erd.md)
-* [Milestone 2](docs/milestone-2.md)
-* [Data Model](docs/data-model.md)
-* [JavaDocs](docs/api/com/nevdiaz/iterate/package-summary.html)
