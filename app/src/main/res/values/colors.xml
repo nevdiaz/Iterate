@@ -13,7 +13,7 @@
 <!--  limitations under the License.-->
 
 <resources>
-  <color name="colorPrimary">#CC5B04</color>
+  <color name="colorPrimary">#1c1b1d</color>
   <color name="colorPrimaryDark">#6f6e70</color>
-  <color name="colorAccent">#1c1b1d</color>
+  <color name="colorAccent">#CC5B04</color>
 </resources>

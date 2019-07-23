@@ -127,7 +127,7 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
     mViewModel = ViewModelProviders.of(this).get(IterationViewModel.class);
     mViewModel.getAlgorithms().observe(this, (algorithms) -> {
       Algorithm algorithm = new Algorithm();
-      algorithm.setName("Select an Algorithm");
+      algorithm.setName("SELECT AN ALGORITHM");
       algorithms.add(0, algorithm);
       ArrayAdapter<Algorithm> adapter =
           new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, algorithms);
