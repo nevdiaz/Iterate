@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -14,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 import com.nevdiaz.iterate.IterateDatabase;
 import com.nevdiaz.iterate.R;
@@ -44,8 +45,6 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
   private ImageView imageView;
   private String userChosenTask;
   private ImageButton imageButton;
-  private static IterateDatabase db;
-
 
 
   /**
@@ -67,12 +66,38 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.iteration_fragment, container, false);
-    db = IterateDatabase.getInstance();
-    new AlgorithmListQuery().execute();
 
     imageView = view.findViewById(R.id.imageView);
     spinner = view.findViewById(R.id.spinner);
+    spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+      @Override
+      public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+        Algorithm algorithm = (Algorithm) adapterView.getItemAtPosition(position);
+        if (algorithm.getId() != 0
+            && algorithm.getFormula() != null
+            && imageView.getDrawable() != null) {
+          try {
+            Class<? extends ImageAlgorithm> formula =
+                (Class<? extends ImageAlgorithm>) getClass()
+                    .getClassLoader().loadClass(algorithm.getFormula());
+            ImageAlgorithm operation = formula.newInstance();
+            operation.setOnCompletionListener(IterationFragment.this);
+            operation.setSource(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+            operation.process(); // Do it!!!!!!
+          } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+          }
+        }
+      }
 
+      @Override
+      public void onNothingSelected(AdapterView<?> adapterView) {
+      }
+    });
 
     imageButton = view.findViewById(R.id.imageButton);
     imageButton.setOnClickListener((View v) -> {
@@ -81,11 +106,15 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
     return view;
 
   }
+
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mViewModel = ViewModelProviders.of(this).get(IterationViewModel.class);
     mViewModel.getAlgorithms().observe(this, (algorithms) -> {
+      Algorithm algorithm = new Algorithm();
+      algorithm.setName("Select an Algorithm");
+      algorithms.add(0, algorithm);
       ArrayAdapter<Algorithm> adapter =
           new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, algorithms);
       spinner.setAdapter(adapter);
@@ -153,10 +182,6 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
 ////    });
 //    popup.show();
 //  }
-
-
-
-
 
 //  @Override
 //  public Bitmap getBitmap() {
@@ -265,7 +290,8 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
    */
   @Override
   public void onRequestPermissionsResult(int requestCode,
-      @android.support.annotation.NonNull String[] permissions, @android.support.annotation.NonNull int[] grantResults) {
+      @android.support.annotation.NonNull String[] permissions,
+      @android.support.annotation.NonNull int[] grantResults) {
     switch (requestCode) {
       case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -350,24 +376,8 @@ public class IterationFragment extends Fragment implements ImageAlgorithm.OnComp
 
   @Override
   public void handle(Bitmap bitmap) {
-    // This gets invoked when the algorithm is complete.
+    //TODO save the bitmap update the database
+    imageView.setImageBitmap(bitmap);
   }
-
-  private class AlgorithmListQuery extends
-    AsyncTask<Void, Void, LiveData<List<Algorithm>>> {
-
-
-    @Override
-    protected LiveData<List<Algorithm>> doInBackground(Void... voids) {
-      return IterateDatabase.getInstance().getAlgorithmDao().getAll();
-    }
-
-
-    @Override
-  protected void onPostExecute(LiveData<List<Algorithm>>algorithms) {
-      super.onPostExecute(algorithms);
-  }
-
-}
 
 }

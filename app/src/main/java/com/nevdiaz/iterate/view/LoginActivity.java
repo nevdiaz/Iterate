@@ -1,7 +1,5 @@
 package com.nevdiaz.iterate.view;
 
-import static com.nevdiaz.iterate.R.layout.activity_login;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +7,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.nevdiaz.iterate.IterateApplication;
 import com.nevdiaz.iterate.R;
 import com.nevdiaz.iterate.service.GoogleSignInService;
 
@@ -23,17 +19,24 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(activity_login);
-    SignInButton signIn = findViewById(R.id.sign_in);
-    signIn.setOnClickListener(view -> signIn());
+    setContentView(R.layout.activity_login);
+    findViewById(R.id.sign_in).setOnClickListener((view) -> signIn());
   }
+//
+//  @Override
+//  protected View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle){
+//    setContentView(R.layout.activity_login);
+//    SignInButton signIn = findViewById(R.id.sign_in);
+//    signIn.setOnClickListener(view -> signIn());
+//    return View;
+//  }
 
   @Override
   protected void onStart() {
     super.onStart();
     GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
     if (account != null) {
-      IterateApplication.getInstance().setAccount(account);
+      GoogleSignInService.getInstance().setAccount(account);
       switchToMain();
     }
   }
@@ -45,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
       try {
         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
         GoogleSignInAccount account = task.getResult(ApiException.class);
-        IterateApplication.getInstance().setAccount(account);
+        GoogleSignInService.getInstance().setAccount(account);
         switchToMain();
       } catch (ApiException e) {
         Toast.makeText(this, R.string.login_failed, Toast.LENGTH_LONG).show();

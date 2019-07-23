@@ -1,6 +1,5 @@
 package com.nevdiaz.iterate.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -63,5 +62,8 @@ public class Algorithm {
     this.example = example;
   }
 
-
+  @Override
+  public String toString() {
+    return name;
+  }
 }

@@ -1,5 +1,6 @@
 package com.nevdiaz.iterate;
 
+import android.content.Context;
 import android.util.Log;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -27,6 +28,12 @@ public abstract class IterateDatabase extends RoomDatabase {
 
   private static final String DB_NAME = "iterate_room";
 
+  private static Context context;
+
+  public static void setContext(Context context) {
+    IterateDatabase.context = context;
+  }
+
   /**
    * Returns the single instance of {@link IterateDatabase} for the current application context.
    *
@@ -48,7 +55,7 @@ public abstract class IterateDatabase extends RoomDatabase {
   private static class InstanceHolder {
 
     private static final IterateDatabase INSTANCE = Room.databaseBuilder(
-        IterateApplication.getInstance().getApplicationContext(),
+        context.getApplicationContext(),
         IterateDatabase.class, DB_NAME)
         .addCallback(new Prepopulate())
         .build();
@@ -73,7 +80,7 @@ public abstract class IterateDatabase extends RoomDatabase {
           public void run() {
 
             try (
-                InputStream input = IterateApplication.getInstance().getResources()
+                InputStream input = context.getResources()
                     .openRawResource(R.raw.algorithm);
                 Reader reader = new InputStreamReader(input);
                 CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withTrim())

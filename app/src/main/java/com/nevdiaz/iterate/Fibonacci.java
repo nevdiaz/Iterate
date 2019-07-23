@@ -2,6 +2,7 @@ package com.nevdiaz.iterate;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -76,9 +77,9 @@ public class Fibonacci implements ImageAlgorithm {
     @Override
     protected Bitmap doInBackground(Bitmap... bitmaps) {
       Bitmap source = bitmaps[0];
-      Bitmap target = Bitmap.createBitmap(source);
-      target.eraseColor(Color.WHITE);
+      Bitmap target = source.copy(Config.ARGB_8888, true);
       Canvas canvas = new Canvas(target);
+      canvas.drawColor(Color.WHITE);
       int width = canvas.getWidth();
       int height = canvas.getHeight();
       float[] hsv = new float[3];
@@ -87,12 +88,13 @@ public class Fibonacci implements ImageAlgorithm {
         double angle = (i * goldenRatio) * 2 * Math.PI;
         r = Math.sqrt(i++) * spacing;
         calcPointPos(width / 2, height / 2, r, (angle % (2 * Math.PI)));
-
-        int pix = source.getPixel((int) px, (int) py);
-        Color.colorToHSV(pix, hsv);
-        double diameter = minWeight + (maxWeight - minWeight) * (1 - hsv[2]);
-        paint.setStrokeWidth((float) diameter);
-        canvas.drawPoint((float) px, (float) py, paint);
+        if (px >= 0 && px < width && py >= 0 && py < height) {
+          int pix = source.getPixel((int) px, (int) py);
+          Color.colorToHSV(pix, hsv);
+          double diameter = minWeight + (maxWeight - minWeight) * (1 - hsv[2]);
+          paint.setStrokeWidth((float) diameter);
+          canvas.drawPoint((float) px, (float) py, paint);
+        }
         // TODO periodically post a progress update
 //        publishProgress(target);
       }

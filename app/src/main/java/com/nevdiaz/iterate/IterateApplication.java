@@ -18,31 +18,13 @@ public class IterateApplication extends Application {
     super.onCreate();
     instance = this;
     Stetho.initializeWithDefaults(this);
+
+    IterateDatabase.setContext(this);
     new Thread(() -> {
       IterateDatabase.getInstance().getAlgorithmDao().delete();
 
     }).start();
     GoogleSignInService.setContext(this);
-  }
-
-  public static IterateApplication getInstance() {
-    return instance;
-  }
-
-  public GoogleSignInClient getClient() {
-    return client;
-  }
-
-  public void setClient(GoogleSignInClient client) {
-    this.client = client;
-  }
-
-  public GoogleSignInAccount getAccount() {
-    return account;
-  }
-
-  public void setAccount(GoogleSignInAccount account) {
-    this.account = account;
   }
 
 }
