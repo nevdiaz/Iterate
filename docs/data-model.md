@@ -52,3 +52,8 @@ REPLACE INTO room_master_table (id, identity_hash)
 VALUES (42, 'efa1f38fa9d3f1a21c351dfc3c919a43');
 ```
 
+* [User Stories](docs/user-stories.md)
+* [Wireframes](docs/wireframes.md)
+* [ERD](docs/erd.md)
+* [Milestone 2](docs/milestone-2.md)
+* [JavaDocs](docs/api/com/nevdiaz/iterate/package-summary.html)
